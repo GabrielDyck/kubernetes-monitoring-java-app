@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: monitoring-java-web-app
+  name: monitoring-java-web-app
+  namespace: monitoring
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+    - name: http-metrics
+      port: 9090
+      targetPort: http-metrics
+  selector:
+    app: monitoring-java-web-app
+  type: ClusterIP
