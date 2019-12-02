@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: monitoring-java-web-app
+  name: monitoring-java-web-app
+  namespace: monitoring
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: monitoring-java-web-app
+  template:
+    metadata:
+      labels:
+        app: monitoring-java-web-app
+    spec:
+      containers:
+        - image: gabrieldyck/monitoring-java-web-app:latest
+          name: monitoring-java-web-app
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 9090
+              name: http-metrics
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+
