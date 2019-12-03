@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: monitoring-java-web-app
-  name: monitoring-java-web-app
+  name: jmx
   namespace: monitoring
 spec:
   ports:
