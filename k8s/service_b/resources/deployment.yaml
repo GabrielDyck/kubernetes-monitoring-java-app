@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: monitoring-java-web-app
-  name: monitoring-java-web-app
+    app: monitoring-java-web-app-b
+  name: monitoring-java-web-app-b
   namespace: monitoring
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: monitoring-java-web-app
+      app: monitoring-java-web-app-b
   template:
     metadata:
       labels:
-        app: monitoring-java-web-app
+        app: monitoring-java-web-app-b
     spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
-          name: monitoring-java-web-app
+          name: monitoring-java-web-app-b
           ports:
             - containerPort: 8080
               name: http
@@ -47,7 +47,7 @@ spec:
               - name: envoy-config-volume
                 mountPath: /etc/envoy-config/
             command: ["/usr/local/bin/envoy"]
-            args: ["-c", "/etc/envoy-config/config.yaml", "--v2-config-only", "-l", "info","--service-cluster","servicea","--service-node","servicea", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
+            args: ["-c", "/etc/envoy-config/config.yaml", "--v2-config-only", "-l", "info","--service-cluster","service-monitoring-java-web-app-b","--service-node","service-monitoring-java-web-app-b", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
         volumes:
           - name: envoy-config-volume
             configMap:
