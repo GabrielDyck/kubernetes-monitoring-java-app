@@ -10,40 +10,40 @@ data:
         socket_address:
           - address: "127.0.0.1"
             port_value: 9901
-    static_resources: #The first line of the Envoy configuration defines the API configuration being used. In this case, we're configuring the Static API, so the first line should be static_resources.
-      listeners: #Where envoy have to listen the requests.  A Listener is the networking configuration, such as IP address and ports, that Envoy listens to for requests. Envoy runs inside of a Docker Container, so it needs to listen on the IP address 0.0.0.0.
+    static_resources:
+      listeners:
         -
           name: "service-monitoring-java-web-app-a-svc-http-listener"
           address:
             socket_address:
               address: "0.0.0.0"
               port_value: 8080
-          filter_chains: # How Envoy process the requests. In this case, we'll proxy all traffic to service_monitoring-java-web-app. With Envoy listening for incoming traffic, the next stage is to define how to process the requests. Each Listener has a set of filters, and different Listeners can have a different set of filters.
+          filter_chains:
             -
               filters:
                 -
                   name: "envoy.http_connection_manager"
                   config:
-                    stat_prefix: "ingress" #The human-readable prefix to use when emitting statistics for the connection manager.
+                    stat_prefix: "ingress"
                     codec_type: "AUTO"
-                    route_config: #The configuration for the route. If the virtual host matches, then the route is checked. In this example, the route_config matches all incoming HTTP requests, no matter the host domain requested.
+                    route_config:
                       name: "service-monitoring-java-web-app-a-svc-http-route"
                       virtual_hosts:
                         -
                           name: "service-monitoring-java-web-app-a-svc-http-route"
                           domains:
                             - "*"
-                          routes: #If the URL prefix is matched then a set of route rules defines what should happen next. In this case "/" means match the root of the request
+                          routes:
                             -
                               match:
                                 prefix: "/"
                               route:
-                                cluster: "service_monitoring-java-web-app-a" #The name of the cluster which will handle the request. The implementation is defined below.
-                    http_filters: #The filter allows Envoy to adapt and modify the request as it is processed.
+                                cluster: "service_monitoring-java-web-app-a"
+                    http_filters:
                       -
                         name: "envoy.router"
 
-      clusters: #When a request matches a filter, the request is passed onto a cluster.  If multiple hosts had been defined, then Envoy would perform a Round Robin strategy.
+      clusters:
         -
           name: "service_monitoring-java-web-app-a"
           connect_timeout: "0.25s"
