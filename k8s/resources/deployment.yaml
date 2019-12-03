@@ -34,4 +34,25 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+        - name: envoy
+            image: envoyproxy/envoy:latest
+            ports:
+              - containerPort: 9901
+                protocol: TCP
+                name: envoy-admin
+              - containerPort: 8786
+                protocol: TCP
+                name: envoy-web
+            volumeMounts:
+              - name: envoy-config-volume
+                mountPath: /etc/envoy-config/
+            command: ["/usr/local/bin/envoy"]
+            args: ["-c", "/etc/envoy-config/config.yaml", "--v2-config-only", "-l", "info","--service-cluster","servicea","--service-node","servicea", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
+        volumes:
+          - name: envoy-config-volume
+            configMap:
+              name: sidecar-config
+              items:
+                - key: envoy-config
+                  path: config.yaml
 
