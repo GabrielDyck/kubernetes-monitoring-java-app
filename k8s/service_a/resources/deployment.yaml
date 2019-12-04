@@ -47,7 +47,7 @@ spec:
             - name: envoy-config-volume
               mountPath: /etc/envoy-config/
           command: ["/usr/local/bin/envoy"]
-          args: ["-c", "/etc/envoy-config/config.yaml", "--v2-config-only", "-l", "info","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
+          args: ["-c", "/etc/envoy-config/config.yaml", "-l", "debug","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
       volumes:
         - name: envoy-config-volume
           configMap:
