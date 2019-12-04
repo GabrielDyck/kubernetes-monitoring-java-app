@@ -1,61 +1,81 @@
-kind: ConfigMap
 apiVersion: v1
+kind: ConfigMap
 metadata:
   name: service-b-envoy-configmap
   namespace: monitoring
 data:
-  keys: |
+  envoy-config: |
+    static_resources:
+      listeners:
+      - name: "service-monitoring-java-web-app-b-svc-http-listener"
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 18080
+        use_original_dst: true
+        filter_chains:
+        - filters:
+          - name: envoy.http_connection_manager
+            config:
+              codec_type: auto
+              stat_prefix: ingress_http
+              route_config:
+                name: service-monitoring-java-web-app-b-svc-http-route
+                virtual_hosts:
+                - name: service-monitoring-java-web-app-b-svc-http-route
+                  domains:
+                  - "*"
+                  routes:
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: service_monitoring-java-web-app-b
+              http_filters:
+              - name: envoy.router
+                config: {}
+      - address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 18080
+        filter_chains:
+        - filters:
+          - name: envoy.http_connection_manager
+            config:
+              stat_prefix: egress_http
+              route_config:
+                name: service_monitoring-java-web-app-a_route
+                virtual_hosts:
+                - name: service_monitoring-java-web-app-a
+                  domains:
+                  - "*"
+                  routes:
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: service_monitoring-java-web-app-a
+              http_filters:
+              - name: envoy.router
+                config: {}
+      clusters:
+      - name: service_monitoring-java-web-app-b
+        connect_timeout: 0.250s
+        type: strict_dns
+        lb_policy: round_robin
+        hosts:
+        - socket_address:
+            address: monitoring-java-web-app-b
+            port_value: 18080
+      - name: service_monitoring-java-web-app-a
+        connect_timeout: 0.250s
+        type: strict_dns
+        lb_policy: round_robin
+        hosts:
+        - socket_address:
+            address: monitoring-java-web-app-a
+            port_value: 18080
     admin:
-      access_log_path: "/tmp/admin_access.log"
+      access_log_path: "/var/log/admin-access.log"
       address:
         socket_address:
-          - address: "127.0.0.1"
-            port_value: 9901
-    static_resources: #The first line of the Envoy configuration defines the API configuration being used. In this case, we're configuring the Static API, so the first line should be static_resources.
-      listeners: #Where envoy have to listen the requests.  A Listener is the networking configuration, such as IP address and ports, that Envoy listens to for requests. Envoy runs inside of a Docker Container, so it needs to listen on the IP address 0.0.0.0.
-        -
-          name: "service-monitoring-java-web-app-b-svc-http-listener"
-          address:
-            socket_address:
-              - address: "0.0.0.0"
-                port_value: 8080
-              - address: "0.0.0.0"
-                port_value: 9090
-          filter_chains: # How Envoy process the requests. In this case, we'll proxy all traffic to service_monitoring-java-web-app. With Envoy listening for incoming traffic, the next stage is to define how to process the requests. Each Listener has a set of filters, and different Listeners can have a different set of filters.
-            -
-              filters:
-                -
-                  name: "envoy.http_connection_manager"
-                  config:
-                    stat_prefix: "ingress" #The human-readable prefix to use when emitting statistics for the connection manager.
-                    codec_type: "AUTO"
-                    route_config: #The configuration for the route. If the virtual host matches, then the route is checked. In this example, the route_config matches all incoming HTTP requests, no matter the host domain requested.
-                      name: "service-monitoring-java-web-app-b-svc-http-route"
-                      virtual_hosts:
-                        -
-                          name: "service-monitoring-java-web-app-b-svc-http-route"
-                          domains:
-                            - "*"
-                          routes: #If the URL prefix is matched then a set of route rules defines what should happen next. In this case "/" means match the root of the request
-                            -
-                              match:
-                                prefix: "/"
-                              route:
-                                cluster: "service_monitoring-java-web-app-b" #The name of the cluster which will handle the request. The implementation is defined below.
-                    http_filters: #The filter allows Envoy to adapt and modify the request as it is processed.
-                      -
-                        name: "envoy.router"
-
-      clusters: #When a request matches a filter, the request is passed onto a cluster.  If multiple hosts had been defined, then Envoy would perform a Round Robin strategy.
-        -
-          name: "service_monitoring-java-web-app-b"
-          connect_timeout: "0.25s"
-          type: "strict_dns"
-          lb_policy: "ROUND_ROBIN"
-          hosts:
-            -
-              socket_address:
-                - address: "service_monitoring-java-web-app-b"
-                  port_value: 8080
-                - address: "service_monitoring-java-web-app-b"
-                  port_value: 9090
+          address: 0.0.0.0
+          port_value: 8001
