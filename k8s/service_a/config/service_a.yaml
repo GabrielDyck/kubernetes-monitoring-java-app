@@ -7,12 +7,10 @@ data:
   envoy-config: |
     static_resources:
       listeners:
-      - name: "service-monitoring-java-web-app-a-svc-http-listener"
-        address:
+      - address:
           socket_address:
             address: 0.0.0.0
-            port_value: 18080
-        use_original_dst: true
+            port_value: 80
         filter_chains:
         - filters:
           - name: envoy.http_connection_manager
@@ -20,62 +18,31 @@ data:
               codec_type: auto
               stat_prefix: ingress_http
               route_config:
-                name: service-monitoring-java-web-app-a-svc-http-route
+                name: local_route
                 virtual_hosts:
-                - name: service-monitoring-java-web-app-a-svc-http-route
+                - name: service
                   domains:
                   - "*"
                   routes:
                   - match:
                       prefix: "/"
                     route:
-                      cluster: service_monitoring-java-web-app-a
-              http_filters:
-              - name: envoy.router
-                config: {}
-      - address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 8080
-        filter_chains:
-        - filters:
-          - name: envoy.http_connection_manager
-            config:
-              stat_prefix: egress_http
-              route_config:
-                name: service_monitoring-java-web-app-b_route
-                virtual_hosts:
-                - name: service_monitoring-java-web-app-b
-                  domains:
-                  - "*"
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: service_monitoring-java-web-app-b
+                      cluster: local_service
               http_filters:
               - name: envoy.router
                 config: {}
       clusters:
-      - name: service_monitoring-java-web-app-a
-        connect_timeout: 0.250s
+      - name: local_service
+        connect_timeout: 0.25s
         type: strict_dns
         lb_policy: round_robin
         hosts:
         - socket_address:
-            address: monitoring-java-web-app-a
-            port_value: 8080
-      - name: service_monitoring-java-web-app-b
-        connect_timeout: 0.250s
-        type: strict_dns
-        lb_policy: round_robin
-        hosts:
-        - socket_address:
-            address: monitoring-java-web-app-b
+            address: 127.0.0.1
             port_value: 8080
     admin:
-      access_log_path: "/var/log/admin-access.log"
+      access_log_path: "/dev/null"
       address:
         socket_address:
           address: 0.0.0.0
-          port_value: 8001
+          port_value: 8081
