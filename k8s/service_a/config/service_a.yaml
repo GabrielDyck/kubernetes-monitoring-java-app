@@ -16,7 +16,7 @@ data:
           - name: envoy.http_connection_manager
             config:
               codec_type: auto
-              stat_prefix: ingress_http
+              stat_prefix: ingress_http_a
               route_config:
                 name: local_route
                 virtual_hosts:

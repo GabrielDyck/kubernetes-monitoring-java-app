@@ -25,3 +25,20 @@ docker push gabrieldyck/monitoring-java-web-app:latest
 
 En la carpeta k8s ejecutar ./deploy-sh para crear el deployment. Para el clean-up ejecutar ./delete-all.sh
 
+
+
+
+
+
+
+
+
+
+## Prueba de envoy
+
+Levantar el servicio B.
+Copiar la cluster_ip del service_b y pegarla como env arg en el deployment del servicio A. 
+Levantar el servicio A.
+Correr el siguiente comando
+k exec -n monitoring monitoring-java-web-app-a-<saraza> -- curl <ip_del_pod_seleccionado>:80/<algun-endpoint>{Ej:pingError}
+

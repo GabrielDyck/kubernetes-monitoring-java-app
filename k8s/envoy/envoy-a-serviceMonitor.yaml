@@ -1,12 +1,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: jmx-a
+  name: envoy
   namespace: monitoring
 spec:
   endpoints:
     - interval: 15s
-      port: http-metrics
+      port: envoy-metrics
+      path: /stats/prometheus
   selector:
     matchLabels:
-      app: monitoring-java-web-app-a
+      app: envoy

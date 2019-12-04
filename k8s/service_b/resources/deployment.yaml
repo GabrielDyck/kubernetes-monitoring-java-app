@@ -14,11 +14,14 @@ spec:
     metadata:
       labels:
         app: monitoring-java-web-app-b
+        envoy: envoy
     spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
           name: monitoring-java-web-app-b
           ports:
+            - containerPort: 8081
+              name: envoy-metrics
             - containerPort: 8080
               name: http
             - containerPort: 9090

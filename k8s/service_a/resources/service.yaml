@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: monitoring-java-web-app-a
+
   name: jmx-a
   namespace: monitoring
 spec:
@@ -13,5 +14,8 @@ spec:
   - name: http-metrics
     port: 9090
     targetPort: http-metrics
+  - name: envoy-metrics
+    port: 8081
+    targetPort: envoy-metrics
   selector:
     app: monitoring-java-web-app-a
