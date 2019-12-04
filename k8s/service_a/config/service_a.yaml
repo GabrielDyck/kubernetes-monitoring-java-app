@@ -27,12 +27,12 @@ data:
                   - match:
                       prefix: "/"
                     route:
-                      cluster: local_service
+                      cluster: local_service_a
               http_filters:
               - name: envoy.router
                 config: {}
       clusters:
-      - name: local_service
+      - name: local_service_a
         connect_timeout: 0.25s
         type: strict_dns
         lb_policy: round_robin

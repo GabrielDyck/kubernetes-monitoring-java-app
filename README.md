@@ -16,6 +16,10 @@ docker build .
 docker run -d --network host -p 9090:9090 -p 8080:8080 monitoring-java-web-app:latest
 
 
+## Build and push in docker
+docker build . -t  gabrieldyck/monitoring-java-web-app:latest
+docker push gabrieldyck/monitoring-java-web-app:latest
+
 
 ## Run in k8s
 

@@ -3,10 +3,9 @@ kind: Service
 metadata:
   labels:
     app: monitoring-java-web-app-a
-  name: jmx
+  name: jmx-a
   namespace: monitoring
 spec:
-  clusterIP: None
   ports:
   - name: http
     port: 80

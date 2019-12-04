@@ -18,6 +18,9 @@ spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
           name: monitoring-java-web-app-a
+          env:
+            - name: ip
+              value: "172.20.88.62"
           ports:
             - containerPort: 8080
               name: http

@@ -3,14 +3,13 @@ kind: Service
 metadata:
   labels:
     app: monitoring-java-web-app-b
-  name: jmx
+  name: jmx-b
   namespace: monitoring
 spec:
-  clusterIP: None
   ports:
   - name: http
-    port: 8080
-    targetPort: http
+    port: 80
+    targetPort: 8080
   - name: http-metrics
     port: 9090
     targetPort: http-metrics
