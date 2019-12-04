@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @RestController
 public class PingErrorController {
 
@@ -13,7 +16,8 @@ public class PingErrorController {
     private ServiceConnector serviceController;
 
     @RequestMapping("/pingError")
-    public String pingOk() {
+    public String pingError() throws UnknownHostException {
+        System.out.println(InetAddress.getLocalHost().getHostName() + ": Starting to pingError");
         return (String) serviceController.pingServiceError().getBody();
     }
 }

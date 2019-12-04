@@ -4,6 +4,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @Component
 public class ServiceConnector {
 
@@ -18,15 +21,19 @@ public class ServiceConnector {
         headers.add("Accept", "*/*");
     }
 
-    public ResponseEntity pingServiceOk() {
+    public ResponseEntity pingServiceOk() throws UnknownHostException {
+        System.out.println( InetAddress.getLocalHost().getHostName() + ": Starting to pingOk service " + server);
         HttpEntity<String> requestEntity = new HttpEntity<String>("",headers);
         ResponseEntity<String> responseEntity = rest.exchange(server + "/", HttpMethod.GET, requestEntity, String.class);
+        System.out.println("Finish to ping with response body" + responseEntity.getBody());
+
         return responseEntity;
 
     }
 
 
-    public ResponseEntity pingServiceError() {
+    public ResponseEntity pingServiceError() throws UnknownHostException {
+        System.out.println( InetAddress.getLocalHost().getHostName() + ": Starting to pingError service " + server);
         HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
         return rest.exchange(server  + "/errorException", HttpMethod.GET, requestEntity, String.class);
 
