@@ -53,6 +53,14 @@ data:
         - socket_address:
             address: 127.0.0.1
             port_value: 8080
+      - name: service_a
+        connect_timeout: 0.25s
+        type: strict_dns
+        lb_policy: round_robin
+        hosts:
+        - socket_address:
+            address: jmx-a
+            port_value: 80
     admin:
       access_log_path: "/dev/null"
       address:
