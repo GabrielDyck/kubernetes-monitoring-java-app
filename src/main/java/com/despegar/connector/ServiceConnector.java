@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 @Component
 public class ServiceConnector {
 
-    private String server = "http://localhost::8788";
+    private String server = "http://"+System.getenv("ip")+":8788";
     private RestTemplate rest;
     private HttpHeaders headers;
 

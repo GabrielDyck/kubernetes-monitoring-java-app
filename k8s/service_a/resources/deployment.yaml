@@ -19,6 +19,9 @@ spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
           name: monitoring-java-web-app-a
+          env:
+            - name: ip
+              value: "localhost"
           ports:
             - containerPort: 8081
               name: envoy-metrics
@@ -45,7 +48,8 @@ spec:
               name: envoy-admin
             - containerPort: 8786
               protocol: TCP
-              name: envoy-web
+            - containerPort: 8788
+              name: ext-service
           volumeMounts:
             - name: envoy-config-volume
               mountPath: /etc/envoy-config/
