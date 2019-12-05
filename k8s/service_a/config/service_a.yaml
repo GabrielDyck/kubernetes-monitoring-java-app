@@ -5,6 +5,11 @@ metadata:
   namespace: monitoring
 data:
   envoy-config: |
+    stats_sinks:
+      - name: "envoy.statsd"
+        config:
+          tcp_cluster_name: "statsd-exporter"
+          prefix: service-a
     static_resources:
       listeners:
       - address:
@@ -32,6 +37,14 @@ data:
               - name: envoy.router
                 config: {}
       clusters:
+      - name: "statsd-exporter"
+        connect_timeout: "0.25s"
+        type: "strict_dns"
+        lb_policy: "ROUND_ROBIN"
+        hosts:
+        - socket_address:
+            address: "statsd-exporter"
+            port_value: 9125
       - name: local_service_a
         connect_timeout: 0.25s
         type: strict_dns
