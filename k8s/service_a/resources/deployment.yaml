@@ -19,9 +19,6 @@ spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
           name: monitoring-java-web-app-a
-          env:
-            - name: ip
-              value: "jmx-b.monitoring.svc.cluster.local"
           ports:
             - containerPort: 8081
               name: envoy-metrics
