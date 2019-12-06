@@ -24,3 +24,13 @@ spec:
               containerPort: 9102
             - name: push-metrics
               containerPort: 9125
+          volumeMounts:
+            - name: statsd-exporter-configmap
+              mountPath: /tmp/config
+          args:
+            - "--statsd.mapping-config=/tmp/config/statsd_exporter.yaml"
+            - "--log.level=debug"
+      volumes:
+        - name: statsd-exporter-configmap
+          configMap:
+            name: statsd-exporter-configmap

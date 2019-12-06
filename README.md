@@ -32,6 +32,14 @@ En la carpeta k8s ejecutar ./deploy-sh para crear el deployment. Para el clean-u
 
 
 
+## Para sherlockube 
+
+https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats
+
+
+
+
+
 
 
 ## Prueba de envoy

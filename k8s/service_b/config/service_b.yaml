@@ -9,7 +9,7 @@ data:
       - name: "envoy.statsd"
         config:
           tcp_cluster_name: "statsd-exporter"
-          prefix: service-b
+          prefix: service_b
     static_resources:
       listeners:
       -

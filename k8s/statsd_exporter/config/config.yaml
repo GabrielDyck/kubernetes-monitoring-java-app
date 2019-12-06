@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: statsd-exporter-configmap
+  namespace: monitoring
+data:
+  statsd_exporter.yaml: |
+    mappings:
+    - match: "*.cluster.*.upstream_rq_2xx"
+      name: "source_cluster_destination_upstream_rq_2xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.cluster.*.upstream_rq_5xx"
+      name: "source_cluster_destination_upstream_rq_5xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.cluster.*.upstream_rq_4xx"
+      name: "source_cluster_destination_upstream_rq_4xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.cluster.*.upstream_rq_completed"
+          name: "source_cluster_destination_upstream_rq_completed"
+          labels:
+            source: "$1"
+            destination: "$2"
+            job: "statsd_exporter"
