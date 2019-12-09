@@ -25,8 +25,8 @@ data:
         destination: "$2"
         job: "statsd_exporter"
     - match: "*.cluster.*.upstream_rq_completed"
-          name: "source_cluster_destination_upstream_rq_completed"
-          labels:
-            source: "$1"
-            destination: "$2"
-            job: "statsd_exporter"
+      name: "source_cluster_destination_upstream_rq_completed"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
