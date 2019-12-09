@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 29,
-  "iteration": 1575908968906,
+  "iteration": 1575908968918,
   "links": [],
   "panels": [
     {
@@ -47,7 +47,7 @@
       "grid": {},
       "gridPos": {
         "h": 8,
-        "w": 17,
+        "w": 11,
         "x": 0,
         "y": 1
       },
@@ -160,7 +160,7 @@
       "gridPos": {
         "h": 8,
         "w": 7,
-        "x": 17,
+        "x": 11,
         "y": 1
       },
       "id": 15,
@@ -196,7 +196,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "clamp_max(sum(rate(source_cluster_destination_upstream_rq_completed{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m])) by (source),5)",
+          "expr": "topk(5,sum(rate(source_cluster_destination_upstream_rq_completed{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m])) by (source))",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -205,10 +205,6 @@
           "metric": "",
           "refId": "A",
           "step": 10
-        },
-        {
-          "expr": "rate(source_cluster_destination_upstream_rq_completed[1m])",
-          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -216,6 +212,113 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "Top Clients",
+      "tooltip": {
+        "msResolution": true,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": null,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "description": null,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 17,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "sideWidth": null,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by (source) (rate(source_cluster_destination_upstream_rq_completed{source=~\"$orig\", destination=~\"$dest\"}[1m])) /      sum by (source) (rate(source_cluster_destination_upstream_rq_completed{destination=~\"$dest\"}[1m])) * 100",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "{{source}}",
+          "metric": "",
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Top Clients Percent",
       "tooltip": {
         "msResolution": true,
         "shared": true,
@@ -1045,7 +1148,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "(sum(rate(source_cluster_destination_upstream_rq_completed{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m])) / sum(rate(source_cluster_destination_upstream_rq_5xx{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m])) ) * 100",
+          "expr": "sum(rate(source_cluster_destination_upstream_rq_5xx{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m]))  * 100 / sum(rate(source_cluster_destination_upstream_rq_completed{source=~\"$orig\", destination=~\"$dest\", instance=~\"$inst\"}[1m])) ",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1070,7 +1173,7 @@
           "value": "null"
         }
       ],
-      "valueName": "max"
+      "valueName": "avg"
     },
     {
       "aliasColors": {},
@@ -1287,7 +1390,7 @@
       }
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 20,
   "style": "dark",
   "tags": [
@@ -1324,8 +1427,11 @@
       {
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "prometheus",
         "definition": "label_values(source_cluster_destination_upstream_rq_2xx,source)",
@@ -1393,7 +1499,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1424,5 +1530,5 @@
   "timezone": "utc",
   "title": "Services / Traffic",
   "uid": "q65qS2-Wk",
-  "version": 22
+  "version": 25
 }
