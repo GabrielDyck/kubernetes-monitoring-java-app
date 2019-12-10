@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 29,
-  "iteration": 1575985228562,
+  "iteration": 1575985228566,
   "links": [],
   "panels": [
     {
@@ -1204,12 +1204,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(source_cluster_destination_upstream_rq_2xx{source=~\"$orig\", destination=~\"$dest\"}[1m])",
+          "expr": "sum(rate(source_cluster_destination_upstream_rq_2xx{source=~\"$orig\", destination=~\"$dest\"}[1m])) by (source)",
           "format": "time_series",
           "instant": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{source}}:{{instance}}-->{{destination}}",
+          "legendFormat": "{{source}}",
           "metric": "",
           "refId": "A",
           "step": 10
@@ -1311,7 +1311,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(source_cluster_destination_upstream_rq_4xx{source=~\"$orig\", destination=~\"$dest\"}[1m])",
+          "expr": "sum(rate(source_cluster_destination_upstream_rq_4xx{source=~\"$orig\", destination=~\"$dest\"}[1m])) by (source)",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1418,12 +1418,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(source_cluster_destination_upstream_rq_5xx{source=~\"$orig\", destination=~\"$dest\"}[1m])",
+          "expr": "sum(rate(source_cluster_destination_upstream_rq_5xx{source=~\"$orig\", destination=~\"$dest\"}[1m])) by (source)",
           "format": "time_series",
           "instant": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{source}}:{{instance}}-->{{destination}}",
+          "legendFormat": "{{source}}",
           "metric": "",
           "refId": "A",
           "step": 10
@@ -1582,7 +1582,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 20,
   "style": "dark",
   "tags": [
@@ -1619,9 +1619,10 @@
       {
         "allValue": null,
         "current": {
-          "text": "All",
+          "tags": [],
+          "text": "service_a",
           "value": [
-            "$__all"
+            "service_a"
           ]
         },
         "datasource": "prometheus",
@@ -1646,9 +1647,10 @@
       {
         "allValue": null,
         "current": {
-          "text": "All",
+          "tags": [],
+          "text": "10.12.12.237:9102",
           "value": [
-            "$__all"
+            "10.12.12.237:9102"
           ]
         },
         "datasource": "prometheus",
@@ -1660,12 +1662,12 @@
         "name": "inst",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "All",
             "value": "$__all"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "10.12.12.237:9102",
             "value": "10.12.12.237:9102"
           },
@@ -1689,7 +1691,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -1720,5 +1722,5 @@
   "timezone": "utc",
   "title": "Services / Traffic",
   "uid": "q65qS2-Wk",
-  "version": 27
+  "version": 28
 }
