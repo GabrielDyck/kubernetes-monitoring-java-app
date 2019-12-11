@@ -57,6 +57,10 @@ data:
             config:
               codec_type: auto
               stat_prefix: ingress_http_a
+              access_log:
+                - name: envoy.file_access_log
+                  config:
+                    path: "/tmp/access.log"
               route_config:
                 name: local_route
                 virtual_hosts:

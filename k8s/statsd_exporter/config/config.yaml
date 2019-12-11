@@ -30,3 +30,27 @@ data:
         source: "$1"
         destination: "$2"
         job: "statsd_exporter"
+    - match: "*.http.*.downstream_rq_2xx"
+      name: "source_http_destination_downstream_rq_2xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.http.*.downstream_rq_5xx"
+      name: "source_http_destination_downstream_rq_5xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.http.*.downstream_rq_4xx"
+      name: "source_http_destination_downstream_rq_4xx"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
+    - match: "*.http.*.downstream_rq_completed"
+      name: "source_http_destination_downstream_rq_completed"
+      labels:
+        source: "$1"
+        destination: "$2"
+        job: "statsd_exporter"
