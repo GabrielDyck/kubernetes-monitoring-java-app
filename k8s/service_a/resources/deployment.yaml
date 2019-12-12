@@ -21,7 +21,7 @@ spec:
           name: monitoring-java-web-app-a
           env:
             - name: ip
-              value: "localhost"
+              value: "jmx-b"
           ports:
             - containerPort: 8081
               name: envoy-metrics
@@ -40,25 +40,3 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
-        - name: envoy
-          image: envoyproxy/envoy:latest
-          ports:
-            - containerPort: 8081
-              protocol: TCP
-              name: envoy-admin
-            - containerPort: 8786
-              protocol: TCP
-            - containerPort: 8788
-              name: ext-service
-          volumeMounts:
-            - name: envoy-config-volume
-              mountPath: /etc/envoy-config/
-          command: ["/usr/local/bin/envoy"]
-          args: ["-c", "/etc/envoy-config/config.yaml", "-l", "debug","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
-      volumes:
-        - name: envoy-config-volume
-          configMap:
-            name: service-a-envoy-configmap
-            items:
-              - key: envoy-config
-                path: config.yaml

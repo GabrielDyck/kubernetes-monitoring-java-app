@@ -47,5 +47,5 @@ https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manag
 Levantar el servicio B.
 Levantar el servicio A.
 Correr el siguiente comando
-k exec -n monitoring monitoring-java-web-app-a-<saraza> -- curl <ip_del_pod_seleccionado>:80/<algun-endpoint>{Ej:pingError}
+k exec -n monitoring monitoring-java-web-app-a-<saraza> -- curl <ip_del_pod_seleccionado>:8080/<algun-endpoint>{Ej:pingError}
 
