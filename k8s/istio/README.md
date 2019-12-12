@@ -4,15 +4,12 @@ Up and Running
 kubectl apply -f resource/generated-manifest.yaml
 
 
-kubectl apply -f setup/ ##Apply del setup de sherlockube
+kubectl label namespace default istio-injection=enabled
 
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 
-kubectl label namespace monitoring istio-injection=enabled
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
-
-Deployar el gateway y virtualservice de service_a
-
-Deployar los servicios service_a y service_b
 
 export INGRESS_HOST=$(minikube ip)
 
@@ -22,3 +19,35 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 
+
+
+Bibliografia:
+
+
+https://istio.io/docs/setup/getting-started/#platform
+
+
+
+https://istio.io/docs/examples/bookinfo/#deploying-the-application
+
+
+
+
+
+
+
+
+
+
+kubectl create namespace monitoring
+
+kubectl label namespace monitoring istio-injection=enabled
+
+
+
+
+export INGRESS_HOST=$(minikube ip)
+
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+
+export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
