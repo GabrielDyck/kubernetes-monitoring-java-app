@@ -14,9 +14,7 @@ spec:
     metadata:
       labels:
         app: monitoring-java-web-app-a
-        envoy: envoy
-        monitoring-java-web-app-a-infra: user
-        envoy-infra: nebula
+
     spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
@@ -42,7 +40,7 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
-        - name: envoy
+        - name: nebula-proxy
           image: envoyproxy/envoy:latest
           ports:
             - containerPort: 8081
