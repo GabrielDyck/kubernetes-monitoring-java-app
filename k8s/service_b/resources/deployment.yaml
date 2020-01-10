@@ -25,7 +25,7 @@ spec:
             - containerPort: 8080
               name: http
             - containerPort: 9090
-              name: http-metrics
+              name: jmx-metrics
           readinessProbe:
             httpGet:
               path: /
