@@ -36,8 +36,14 @@ public class ServiceConnector {
         System.out.println( InetAddress.getLocalHost().getHostName() + ": Starting to pingError service " + server);
         HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
         return rest.exchange(server  + "/errorException", HttpMethod.GET, requestEntity, String.class);
-
     }
+
+    public ResponseEntity pingNotFound() throws UnknownHostException {
+        System.out.println( InetAddress.getLocalHost().getHostName() + ": Starting to pingNotFound service " + server);
+        HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
+        return rest.exchange(server  + "/saraza-path", HttpMethod.GET, requestEntity, String.class);
+    }
+
 }
 
 

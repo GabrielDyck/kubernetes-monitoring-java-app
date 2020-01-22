@@ -20,5 +20,13 @@ public class PingErrorController {
         System.out.println(InetAddress.getLocalHost().getHostName() + ": Starting to pingError");
         return (String) serviceController.pingServiceError().getBody();
     }
+
+
+    @RequestMapping("/pingNotFound")
+    public String pingNotFound() throws UnknownHostException {
+        System.out.println(InetAddress.getLocalHost().getHostName() + ": Starting to pingNotFound");
+        return (String) serviceController.pingNotFound().getBody();
+    }
+
 }
 
