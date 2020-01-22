@@ -13,7 +13,7 @@ data:
     static_resources:
       listeners:
       -
-            name: "service-b-svc-http-listener"
+            name: "service_b_svc_http_listener"
             address:
               socket_address:
                 address: "0.0.0.0"
@@ -32,10 +32,10 @@ data:
                       stat_prefix: "egress_service_b"
                       codec_type: "AUTO"
                       route_config:
-                        name: "service-b-svc-http-route"
+                        name: "service_b_svc_http_route"
                         virtual_hosts:
                           -
-                            name: "service-b-svc-http-route"
+                            name: "service_b_svc_http_route"
                             domains:
                               - "*"
                             routes:
@@ -62,16 +62,16 @@ data:
                   config:
                     path: "/tmp/access.log"
               route_config:
-                name: local_route
+                name: service_a_svc_http_route
                 virtual_hosts:
-                - name: service
+                - name: service_a_svc_http_route
                   domains:
                   - "*"
                   routes:
                   - match:
                       prefix: "/"
                     route:
-                      cluster: local_service_a
+                      cluster: service_a
               http_filters:
               - name: envoy.router
                 config: {}
@@ -84,7 +84,7 @@ data:
         - socket_address:
             address: "statsd-exporter"
             port_value: 9125
-      - name: local_service_a
+      - name: service_a
         connect_timeout: 0.25s
         type: strict_dns
         lb_policy: round_robin

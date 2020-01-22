@@ -13,40 +13,40 @@ data:
     static_resources:
       listeners:
       -
-                  name: "service-a-svc-http-listener"
-                  address:
-                    socket_address:
-                      address: "0.0.0.0"
-                      port_value: 8788
-                  filter_chains:
-                    -
-                      filters:
-                        -
-                          name: "envoy.http_connection_manager"
-                          config:
-                            access_log:
-                            - name: envoy.file_access_log
-                              config:
-                                path: /dev/stdout
-                                format: "[ACCESS_LOG][%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\" \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" \"%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%\"\n"
-                            stat_prefix: "egress_service_a"
-                            codec_type: "AUTO"
-                            route_config:
-                              name: "service-a-svc-http-route"
-                              virtual_hosts:
-                                -
-                                  name: "service-a-svc-http-route"
-                                  domains:
-                                    - "*"
-                                  routes:
-                                    -
-                                      match:
-                                        prefix: "/"
-                                      route:
-                                        cluster: "service_a"
-                            http_filters:
+            name: "service_a_svc_http_listener"
+            address:
+              socket_address:
+                address: "0.0.0.0"
+                port_value: 8788
+            filter_chains:
+              -
+                filters:
+                  -
+                    name: "envoy.http_connection_manager"
+                    config:
+                      access_log:
+                      - name: envoy.file_access_log
+                        config:
+                          path: /dev/stdout
+                          format: "[ACCESS_LOG][%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\" \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" \"%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%\"\n"
+                      stat_prefix: "egress_service_a"
+                      codec_type: "AUTO"
+                      route_config:
+                        name: "service_a_svc_http_route"
+                        virtual_hosts:
+                          -
+                            name: "service_a_svc_http_route"
+                            domains:
+                              - "*"
+                            routes:
                               -
-                                name: "envoy.router"
+                                match:
+                                  prefix: "/"
+                                route:
+                                  cluster: "service_a"
+                      http_filters:
+                        -
+                          name: "envoy.router"
       - address:
           socket_address:
             address: 0.0.0.0
@@ -62,16 +62,16 @@ data:
                   config:
                     path: "/tmp/access.log"
               route_config:
-                name: local_route
+                name: service_b_svc_http_route
                 virtual_hosts:
-                - name: service
+                - name: service_b_svc_http_route
                   domains:
                   - "*"
                   routes:
                   - match:
                       prefix: "/"
                     route:
-                      cluster: local_service_b
+                      cluster: service_b
               http_filters:
               - name: envoy.router
                 config: {}
@@ -84,7 +84,7 @@ data:
         - socket_address:
             address: "statsd-exporter"
             port_value: 9125
-      - name: local_service_b
+      - name: service_b
         connect_timeout: 0.25s
         type: strict_dns
         lb_policy: round_robin
