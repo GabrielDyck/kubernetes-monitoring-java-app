@@ -17,7 +17,7 @@ data:
             address:
               socket_address:
                 address: "0.0.0.0"
-                port_value: 8788
+                port_value: 80
             filter_chains:
               -
                 filters:
@@ -29,7 +29,7 @@ data:
                         config:
                           path: /dev/stdout
                           format: "[ACCESS_LOG][%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\" \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" \"%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%\"\n"
-                      stat_prefix: "egress_service_b"
+                      stat_prefix: "egress_service_b_8788"
                       codec_type: "AUTO"
                       route_config:
                         name: "service_b_svc_http_route"
@@ -50,13 +50,13 @@ data:
       - address:
           socket_address:
             address: 0.0.0.0
-            port_value: 80
+            port_value: 8786
         filter_chains:
         - filters:
           - name: envoy.http_connection_manager
             config:
               codec_type: auto
-              stat_prefix: ingress_http_a
+              stat_prefix: ingress_http_a_8786
               access_log:
                 - name: envoy.file_access_log
                   config:

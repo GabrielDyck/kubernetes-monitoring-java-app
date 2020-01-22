@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-kubectl exec -n monitoring monitoring-java-web-app-b-bcd994cc7-bjgwt -- curl 10.12.1.111:80/
+kubectl exec -n monitoring monitoring-java-web-app-a-6595d99789-hxz4j -- curl 10.12.15.75:80/
