@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: monitoring-java-web-app-a
+    application: monitoring-java-web-app-a
   name: monitoring-java-web-app-a
   namespace: monitoring
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: monitoring-java-web-app-a
+      application: monitoring-java-web-app-a
   template:
     metadata:
       labels:
-        app: monitoring-java-web-app-a
+        application: monitoring-java-web-app-a
         envoy: envoy
     spec:
       containers:
