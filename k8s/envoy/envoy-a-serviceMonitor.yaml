@@ -10,4 +10,4 @@ spec:
       path: /stats/prometheus
   selector:
     matchLabels:
-      app: envoy
+      application: envoy

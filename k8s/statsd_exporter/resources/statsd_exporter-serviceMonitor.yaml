@@ -9,4 +9,4 @@ spec:
       port: http-metrics
   selector:
     matchLabels:
-      app: statsd-exporter
+      application: statsd-exporter

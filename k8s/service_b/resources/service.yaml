@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: monitoring-java-web-app-b
+    application: monitoring-java-web-app-b
   name: jmx-b
   namespace: monitoring
 spec:
@@ -14,4 +14,4 @@ spec:
     port: 9090
     targetPort: http-metrics
   selector:
-    app: monitoring-java-web-app-b
+    application: monitoring-java-web-app-b
