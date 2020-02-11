@@ -23,8 +23,6 @@ spec:
             - name: ip
               value: "localhost"
           ports:
-            - containerPort: 8081
-              name: envoy-metrics
             - containerPort: 8080
               name: http
             - containerPort: 9090
@@ -45,7 +43,7 @@ spec:
           ports:
             - containerPort: 8081
               protocol: TCP
-              name: envoy-admin
+              name: envoy-metrics
             - containerPort: 8786
               protocol: TCP
             - containerPort: 8788
@@ -58,7 +56,7 @@ spec:
           command: ["/usr/local/bin/envoy"]
           args: ["-c", "/etc/envoy-config/config.yaml", "-l", "debug","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
         - name: envy
-          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.5
+          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.9
           env:
             - name: ENVIRONMENT
               value: "beta"
