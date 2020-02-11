@@ -59,7 +59,10 @@ spec:
           command: ["/usr/local/bin/envoy"]
           args: ["-c", "/etc/envoy-config/config.yaml", "-l", "info","--service-cluster","service-monitoring-java-web-app-b","--service-node","service-monitoring-java-web-app-b", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
         - name: envy
-          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.3
+          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.5
+          env:
+            - name: ENVIRONMENT
+              value: "beta"
           ports:
             - containerPort: 9292
               name: http-envy
