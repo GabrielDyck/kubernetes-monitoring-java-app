@@ -27,12 +27,21 @@ data:
                       access_log:
                       - name: envoy.file_access_log
                         config:
-                          path: /tmp/envoy.log
+                          path: /tmp/access.log
                           json_format:
                             protocol: "%PROTOCOL%"
                             duration: "%DURATION%"
                             cluster: "%UPSTREAM_CLUSTER%"
                             path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+                            bytesSent: "%BYTES_SENT%"
+                            bytesReceived: "%BYTES_RECEIVED%"
+                            responseCode: "%RESPONSE_CODE%"
+                            upstreamHost: "%UPSTREAM_HOST%"
+                            upstreamCluster: "%UPSTREAM_CLUSTER%"
+                            downstreamRemoteAddress: "%DOWNSTREAM_REMOTE_ADDRESS%"
+                            hostname: "%HOSTNAME%"
+                            method: "%REQ(:METHOD)%"
+                            downstreamCluster: "%REQ(X-ENVOY-DOWNSTREAM-SERVICE-CLUSTER)%"
                       stat_prefix: "egress_service_b_8788"
                       codec_type: "AUTO"
                       route_config:

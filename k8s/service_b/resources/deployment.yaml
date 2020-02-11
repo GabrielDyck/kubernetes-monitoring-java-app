@@ -54,8 +54,20 @@ spec:
           volumeMounts:
             - name: envoy-config-volume
               mountPath: /etc/envoy-config/
+            - name: accesslog-shared-data
+              mountPath: /tmp/
           command: ["/usr/local/bin/envoy"]
           args: ["-c", "/etc/envoy-config/config.yaml", "-l", "info","--service-cluster","service-monitoring-java-web-app-b","--service-node","service-monitoring-java-web-app-b", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
+        - name: envy
+          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.3
+          ports:
+            - containerPort: 9292
+              name: http-envy
+          volumeMounts:
+            - name: envy-config
+              mountPath: /etc/app/config/
+            - name: accesslog-shared-data
+              mountPath: /tmp/
       volumes:
         - name: envoy-config-volume
           configMap:
@@ -63,3 +75,8 @@ spec:
             items:
               - key: envoy-config
                 path: config.yaml
+        - name: envy-config
+          configMap:
+            name: envy-config
+        - name: accesslog-shared-data
+          emptyDir: {}
