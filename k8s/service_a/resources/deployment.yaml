@@ -33,7 +33,7 @@ spec:
               port: http
           resources:
             limits:
-              cpu: 200m
+              cpu: 1000m
               memory: 200Mi
             requests:
               cpu: 100m
@@ -56,7 +56,7 @@ spec:
           command: ["/usr/local/bin/envoy"]
           args: ["-c", "/etc/envoy-config/config.yaml", "-l", "debug","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
         - name: envy
-          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.9
+          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.16
           env:
             - name: ENVIRONMENT
               value: "beta"
@@ -68,6 +68,13 @@ spec:
               mountPath: /etc/app/config/
             - name: accesslog-shared-data
               mountPath: /tmp/
+          resources:
+            limits:
+              cpu: 1
+              memory: 1000Mi
+            requests:
+              cpu: 1
+              memory: 1000Mi
       volumes:
         - name: envoy-config-volume
           configMap:

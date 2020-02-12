@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-kubectl exec -n monitoring monitoring-java-web-app-a-7789446f57-2mwqs -- curl 10.12.11.197:80/pingOk
+kubectl exec -n monitoring monitoring-java-web-app-a-f6b9cbdd5-kl4dv -- curl 10.12.58.164:80/pingOk
