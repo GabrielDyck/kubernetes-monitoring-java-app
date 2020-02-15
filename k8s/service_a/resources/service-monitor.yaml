@@ -9,4 +9,4 @@ spec:
       port: http-metrics
   selector:
     matchLabels:
-      application: monitoring-java-web-app-a
+      service: monitoring-java-web-app-a

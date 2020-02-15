@@ -4,17 +4,17 @@ metadata:
   name: statsd-exporter
   namespace: monitoring
   labels:
-    application: statsd-exporter
+    service: statsd-exporter
 
 spec:
   replicas: 2
   selector:
     matchLabels:
-      application: statsd-exporter
+      service: statsd-exporter
   template:
     metadata:
       labels:
-        application: statsd-exporter
+        service: statsd-exporter
     spec:
       containers:
         - name: statsd-exporter

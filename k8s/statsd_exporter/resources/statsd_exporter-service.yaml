@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    application: statsd-exporter
+    service: statsd-exporter
   name: statsd-exporter
   namespace: monitoring
 spec:
@@ -14,4 +14,4 @@ spec:
       port: 9125
       targetPort: push-metrics
   selector:
-    application: statsd-exporter
+    service: statsd-exporter
