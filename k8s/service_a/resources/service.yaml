@@ -15,7 +15,7 @@ spec:
     port: 9800
     targetPort: http-metrics
   - name: envoy-metrics
-    port: 8081
+    port: 8001
     targetPort: envoy-metrics
   selector:
     service: monitoring-java-web-app-a
