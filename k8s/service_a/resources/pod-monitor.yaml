@@ -1,12 +1,12 @@
 apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+kind: PodMonitor
 metadata:
-  name: jmx-a
+  name: service-a-envy
   namespace: monitoring
 spec:
-  endpoints:
+  podMetricsEndpoints:
     - interval: 15s
-      port: http-metrics
+      port: http-envy
   selector:
     matchLabels:
       service: monitoring-java-web-app-a
