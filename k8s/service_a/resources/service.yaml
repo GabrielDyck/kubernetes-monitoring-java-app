@@ -12,7 +12,7 @@ spec:
     port: 80
     targetPort: 8080
   - name: http-metrics
-    port: 9090
+    port: 9800
     targetPort: http-metrics
   - name: envoy-metrics
     port: 8081

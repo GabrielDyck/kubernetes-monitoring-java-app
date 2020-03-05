@@ -18,6 +18,7 @@ spec:
     spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
+          imagePullPolicy: Always
           name: monitoring-java-web-app-a
           env:
             - name: ip
@@ -25,7 +26,7 @@ spec:
           ports:
             - containerPort: 8080
               name: http
-            - containerPort: 9090
+            - containerPort: 9800
               name: http-metrics
           readinessProbe:
             httpGet:
