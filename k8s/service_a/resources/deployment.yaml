@@ -15,6 +15,7 @@ spec:
       labels:
         service: monitoring-java-web-app-a
         envoy: envoy
+        log-backend: default
     spec:
       containers:
         - image: gabrieldyck/monitoring-java-web-app:latest
@@ -57,7 +58,7 @@ spec:
           command: ["/usr/local/bin/envoy"]
           args: ["-c", "/etc/envoy-config/config.yaml", "-l", "debug","--service-cluster","service-monitoring-java-web-app-a","--service-node","service-monitoring-java-web-app-a", "--log-format", "[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v"]
         - name: envy
-          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.27
+          image: 168448339441.dkr.ecr.us-east-1.amazonaws.com/envy:0.0.28
           env:
             - name: ENVIRONMENT
               value: "beta"
@@ -71,11 +72,11 @@ spec:
               mountPath: /tmp/
           resources:
             limits:
-              cpu: 1
-              memory: 1000Mi
+              cpu: 0.1
+              memory: 500Mi
             requests:
-              cpu: 1
-              memory: 1000Mi
+              cpu: 0.1
+              memory: 50Mi
       volumes:
         - name: envoy-config-volume
           configMap:
